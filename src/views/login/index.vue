@@ -9,7 +9,7 @@
             <div class="jump-link">
                 <el-link type="primary" @click="handleChange">{{ formType ? '返回登录' : '注册账号' }}</el-link>
             </div>
-            <el-form :model="loginForm" :rules="rules">
+            <el-form :model="loginForm" :rules="rules" ref="loginFormRef">
                 <el-form-item prop="userName">
                     <el-input v-model="loginForm.userName" placeholder="手机号" prefix-icon="UserFilled"></el-input>
                 </el-form-item>
@@ -25,7 +25,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" :style="{ 'width': '100%' }" @click="handleSubmit">{{
+                    <el-button type="primary" :style="{ 'width': '100%' }" @click="handleSubmit(loginFormRef)">{{
                         formType ?
                             '注册账号' :
                             '登录'
@@ -37,10 +37,14 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
-import { getCode } from '../../api/index'
+import { getCode, userAuthentication, login } from '../../api/index'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 const imgUrl = new URL('../../../public/login-head.png', import.meta.url).href
 const formType = ref(0)
+
+const loginFormRef = ref()
 
 const loginForm = reactive({
     userName: '',
@@ -109,8 +113,40 @@ const rules = reactive({
     passWord: [{ validator: validatePass, trigger: 'blur' }],
 })
 
+const router = useRouter()
+
 // 表单提交
-function handleSubmit() { }
+async function handleSubmit(formEl) {
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log(loginForm, 'submit!')
+            // 注册页面
+            if (formType.value === 1) {
+                userAuthentication(loginForm).then(({ data }) => {
+                    if (data.code === 10000) {
+                        ElMessage.success('注册成功，请登录');
+                        formType.value = 0
+                    }
+                })
+            } else {
+                // 登录页面
+                login(loginForm).then(({ data }) => {
+                    if (data.code === 10000) {
+                        ElMessage.success('登录成功');
+                        // console.log(data)
+                        // 将token和用户信息存入localStorage
+                        localStorage.setItem('pz_token', data.data.token)
+                        localStorage.setItem('pz_userInfo', JSON.stringify(data.data.userInfo))
+                        router.push('/')
+                    }
+                })
+            }
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
+}
 </script>
 
 <style lang="less" scoped>
