@@ -1,0 +1,44 @@
+<template>
+  <el-menu active-text-color="#ffd04b" background-color="#545c64" class="aside-container      el-menu-vertical-demo"
+      text-color="#fff" @open="handleOpen" @close="handleClose"
+      :style="{ width: store.isCollapse ? '64px' : '230px' }"
+      :collapse="store.isCollapse"
+      :collapse-transition="false">
+      <p class="logo-lg">{{ store.isCollapse ? 'DIDI' : 'DIDI陪诊' }}</p>
+      <TreeMenu :menuData="menuData" :index="1" />
+    </el-menu>
+</template>
+
+<script setup>
+import TreeMenu from '../components/treeMenu.vue';
+import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
+import { useStore } from '../stores/index'
+
+const router = useRouter();
+const menuData = reactive(router.options.routes[0].children);
+
+const store = useStore()
+
+const handleOpen = () => { }
+const handleClose = () => { }
+</script>
+
+<style scoped lang="less">
+.aside-container {
+  height: 100%;
+  transition: width 0.15s;
+  -webkit-transition: width 0.15s;
+  -moz-transition: width 0.15s;
+  -webkit-transition: width 0.15s;
+  -o-transition: width 0.15s;
+
+  .logo-lg {
+    font-size: 20px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+  }
+}
+</style>
