@@ -31,7 +31,7 @@ http.interceptors.response.use(function (response) {
         localStorage.removeItem('pz_token');
         localStorage.removeItem('pz_userInfo');
         // ElMessage.error('登录信息已过期，请重新登录');
-        window.location.href = window.location.origin + '/login';
+        window.location.href = window.location.origin;
       }
     return response;
 }, function (error) {

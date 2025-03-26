@@ -9,7 +9,7 @@
             <div class="jump-link">
                 <el-link type="primary" @click="handleChange">{{ formType ? '返回登录' : '注册账号' }}</el-link>
             </div>
-            <el-form :model="loginForm" :rules="rules" ref="loginFormRef">
+            <el-form ref="loginFormRef" :model="loginForm" :rules="rules">
                 <el-form-item prop="userName">
                     <el-input v-model="loginForm.userName" placeholder="手机号" prefix-icon="UserFilled"></el-input>
                 </el-form-item>

@@ -19,3 +19,18 @@ export const login = (data) => {
 export const authAdmin = (params) => {
   return request.get('/auth/admin', { params });
 };
+
+// 菜单权限数据 /user/getmenu
+export const userGetMenu = () => {
+  return request.get('/user/getmenu');
+};
+
+// 菜单权限修改 /user/setmenu
+export const userSetMenu = (data) => {
+  return request.post('/user/setmenu', data);
+};
+
+// 菜单权限列表 /menu/list
+export const menuList = (params) => {
+  return request.get('/menu/list', { params });
+};
