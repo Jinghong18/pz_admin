@@ -47,13 +47,13 @@
 
 <script setup>
 import { Fold } from '@element-plus/icons-vue'
-import { useStore } from '../stores/index'
+import { useMenuStore } from '../stores/index'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
-const store = useStore()
+const store = useMenuStore()
 const selectMent = store.selectMenu
 
 const closeTab = (item, index) => {

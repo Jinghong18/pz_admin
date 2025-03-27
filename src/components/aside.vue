@@ -13,12 +13,12 @@
 import TreeMenu from '../components/treeMenu.vue';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
-import { useStore } from '../stores/index'
+import { useMenuStore } from '../stores/index'
 
 const router = useRouter();
 const menuData = reactive(router.options.routes[0].children);
 
-const store = useStore()
+const store = useMenuStore()
 
 const handleOpen = () => { }
 const handleClose = () => { }

@@ -34,3 +34,39 @@ export const userSetMenu = (data) => {
 export const menuList = (params) => {
   return request.get('/menu/list', { params });
 };
+
+// 权限下拉列表 /menu/selectlist
+export const menuSelectList = () => {
+  return request.get('/menu/selectlist');
+};
+
+// 用户数据修改 /update/user
+export const updateUser = (data) => {
+  return request.post('/update/user', data);
+};
+
+// 用户菜单权限 /menu/permissions
+export const menuPermissions = () => {
+  return request.get('/menu/permissions');
+};
+
+// 头像列表/photo/list
+export const photoList = () => {
+  return request.get('/photo/list');
+};
+
+// 陪护师创建 /companion
+export const companion = (data) => {
+  return request.post('/companion', data);
+};
+
+// 陪护师列表 /companion/list
+export const companionList = (params) => {
+  return request.get('/companion/list', { params });
+};
+
+// 陪护师删除 /delete/companion
+export const deleteCompanion = (data) => {
+  return request.post('/delete/companion/', data);
+};
+

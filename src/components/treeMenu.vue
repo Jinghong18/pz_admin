@@ -27,9 +27,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { useStore} from '../stores/index'
+import { useMenuStore} from '../stores/index'
 
-const store = useStore()
+const store = useMenuStore()
 
 const router = useRouter();
 

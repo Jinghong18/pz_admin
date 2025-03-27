@@ -1,7 +1,6 @@
-import { th } from 'element-plus/es/locales.mjs'
 import { defineStore } from 'pinia'
 
-export const useStore = defineStore('storeId', {
+export const useMenuStore = defineStore('menuStore', {
   state: () => ({
     isCollapse: false,
     selectMenu: []
