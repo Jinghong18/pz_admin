@@ -1,5 +1,5 @@
 <template>
-  <panel-head :route="route"/>
+  <panel-head :route="route" />
   <div class="btns">
     <el-button :icon="Plus" size="small" type="primary" @click="open(null)">新增</el-button>
   </div>
@@ -41,98 +41,29 @@
 </template>
 
 <script setup>
-import { defineComponent } from 'vue';
 import { ref, reactive, onMounted, nextTick } from 'vue';
-import { ElTree } from 'element-plus';
 import { userGetMenu, userSetMenu, menuList } from '../../../api/index'
 import { Plus } from '@element-plus/icons-vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute()
+const route = useRoute();
 
-
-onMounted(() => {
-  userGetMenu().then(({ data }) => {
-    permissionsData.value = data.data;
-    // console.log(data);
-  });
-  getList();
-});
-
-// 列表数据
-const tableData = reactive(
-  {
-    list: [],
-    total: 0,
-  }
-);
-
-// 打开弹窗
-const open = (rowData) => {
-  dialogFormVisible.value = true;
-  // 弹窗打开form生成是异步的，需要延迟
-  nextTick(() => {
-    if (rowData) {
-      Object.assign(form, { id: rowData.id, name: rowData.name });
-      treeRef.value.setCheckedKeys(rowData.permission || []);
-    }
-  });
-}
-
-const paginationData = reactive({
-  pageNum: 1,
-  pageSize: 10
-})
-
-// 切换分页
-const handleSizeChange = (size) => {
-  paginationData.pageSize = size;
-  getList();
-}
-
-const handleCurrentChange = (page) => {
-  paginationData.pageNum = page;
-  getList();
-}
-
-// 请求列表数据
-const getList = () => {
-  menuList(paginationData).then(({ data }) => {
-    const { list, total } = data.data;
-    tableData.list = list;
-    tableData.total = total;
-  });
-}
-
-
-
+// 弹窗的显示隐藏
+const dialogFormVisible = ref(false);
 const formRef = ref()
-
 // form表单
 const form = reactive({
   name: '',
   permissions: '',
   id: '',
 });
-
+const treeRef = ref();
 // 权限树
 const permissionsData = ref([]);
-
-// 弹窗的显示隐藏
-const dialogFormVisible = ref(false);
-
-// 关闭弹窗的回调
-const beforeClose = () => {
-  dialogFormVisible.value = false;
-  // 重置表单
-  formRef.value.resetFields();
-  // tree的选择重置
-  treeRef.value.setCheckedKeys(defaultCheckedKeys);
-};
-
 // 选中的权限
 const defaultCheckedKeys = [4, 5];
-const treeRef = ref();
+
+
 
 // 表单校验规则
 const rules = reactive({
@@ -149,7 +80,7 @@ const confirm = async (formEl) => {
       // 获取到选中的checkbox的数据
       const permissions = JSON.stringify(treeRef.value.getCheckedKeys());
       userSetMenu({ name: form.name, permissions, id: form.id }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         beforeClose();
         getList();
       });
@@ -160,6 +91,67 @@ const confirm = async (formEl) => {
   )
 }
 
+// 关闭弹窗的回调
+const beforeClose = () => {
+  dialogFormVisible.value = false;
+  // 重置表单
+  formRef.value.resetFields();
+  // tree的选择重置
+  treeRef.value.setCheckedKeys(defaultCheckedKeys);
+};
+
+onMounted(() => {
+  userGetMenu().then(({ data }) => {
+    permissionsData.value = data.data;
+    // console.log(data);
+  });
+  getList();
+});
+
+// 列表数据
+const tableData = reactive(
+  {
+    list: [],
+    total: 0,
+  }
+);
+// 后端要求传的参数
+const paginationData = reactive({
+  pageNum: 1,
+  pageSize: 10
+})
+
+// 请求列表数据
+const getList = () => {
+  menuList(paginationData).then(({ data }) => {
+    const { list, total } = data.data;
+    tableData.list = list;
+    tableData.total = total;
+  });
+}
+
+
+// 打开弹窗
+const open = (rowData) => {
+  dialogFormVisible.value = true;
+  // 弹窗打开form生成是异步的，需要延迟
+  nextTick(() => {
+    if (rowData) {
+      Object.assign(form, { id: rowData.id, name: rowData.name });
+      treeRef.value.setCheckedKeys(rowData.permission || []);
+    }
+  });
+}
+// 切换分页
+const handleSizeChange = (size) => {
+  paginationData.pageSize = size;
+  getList();
+}
+
+const handleCurrentChange = (page) => {
+  paginationData.pageNum = page;
+  getList();
+}
 
 </script>
 

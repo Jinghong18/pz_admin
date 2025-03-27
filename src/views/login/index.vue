@@ -44,7 +44,7 @@
   // 获取 Pinia 状态管理
   const menuStore = useMenuStore();
   
-  const imgUrl = new URL('@/../public/login-head.png', import.meta.url).href;
+  const imgUrl = new URL('../../../public/login-head.png', import.meta.url).href;
   
   
   // 表单数据
@@ -165,18 +165,10 @@
               // 请求权限菜单
               menuPermissions().then(({ data }) => {
                 menuStore.dynamicMenu(data.data);
-                console.log(menuStore.state.routerList, 'routerList_1');
-                toRaw(menuStore.state.routerList).forEach((item) => {
-                  if (item.redirect) {
-                    router.addRoute({
-                      path: item.path,
-                      redirect: item.redirect
-                    });
-                  } else {
-                    router.addRoute('main', item);
-                  }
+                console.log(menuStore.routerList, 'routerList_1');
+                toRaw(menuStore.routerList).forEach((item) => {
+                  router.addRoute('main', item);
                 });
-                console.log(router.getRoutes(), 'router_1');
                 router.push('/');
               });
             } else {

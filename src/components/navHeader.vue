@@ -17,14 +17,11 @@
         </div>
         <!-- 右边部分 下拉菜单-->
         <div class="header-right">
-            <el-dropdown>
-                <div class="flex-box el-dropdown-link">
-                    <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-                    <p class="user-name">
-                        admin
-                    </p>
+            <el-dropdown @command="handleClick">
+                <div class="el-dropdown-link flex-box">
+                    <el-avatar :src="userInfo.avatar" />
+                    <p class="username">{{ userInfo.name }}</p>
                 </div>
-                <!-- 下拉菜单内容 -->
                 <span class="el-dropdown-link">
                     Dropdown List
                     <el-icon class="el-icon--right">
@@ -33,11 +30,7 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>Action 1</el-dropdown-item>
-                        <el-dropdown-item>Action 2</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                        <el-dropdown-item divided>Action 5</el-dropdown-item>
+                        <el-dropdown-item command="logout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -55,6 +48,9 @@ const router = useRouter()
 
 const store = useMenuStore()
 const selectMent = store.selectMenu
+
+const userInfoString = localStorage.getItem("pz_userInfo");
+const userInfo = userInfoString ? JSON.parse(userInfoString) : null;
 
 const closeTab = (item, index) => {
     store.closeSeldetMenu(item)
@@ -74,6 +70,18 @@ const closeTab = (item, index) => {
     }else {
         // 中间的tab
         router.push(selectMenuData[index].path)
+    }
+}
+
+const handleClick = (command) => {
+    if (command === "logout") {
+        localStorage.removeItem("pz_token");
+        localStorage.removeItem("pz_userInfo");
+        localStorage.removeItem("pz_v3pz");
+        // 退出登录
+        // 跳转到登录页面
+        // router.push({ path: "/login" });
+        window.location.href = window.location.origin;
     }
 }
 </script>
@@ -135,7 +143,7 @@ const closeTab = (item, index) => {
             .close {
                 visibility: visible;
                 cursor: pointer;
-                color: #333;
+                color: #409eff;
             }
         }
     }

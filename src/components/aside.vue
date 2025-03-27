@@ -1,10 +1,10 @@
 <template>
   <el-menu active-text-color="#FFF2AF" background-color="#F7CFD8" class="aside-container      el-menu-vertical-demo"
       text-color="#493D9E" @open="handleOpen" @close="handleClose"
-      :style="{ width: store.isCollapse ? '64px' : '230px' }"
-      :collapse="store.isCollapse"
+      :style="{ width: store.isCollapsed ? '64px' : '230px' }"
+      :collapse="store.isCollapsed"
       :collapse-transition="false">
-      <p class="logo-lg">{{ store.isCollapse ? 'DIDI' : 'DIDI陪诊' }}</p>
+      <p class="logo-lg">{{ store.isCollapsed ? 'DIDI' : 'DIDI陪诊' }}</p>
       <TreeMenu :menuData="menuData" :index="1" />
     </el-menu>
 </template>
@@ -16,9 +16,11 @@ import { reactive } from 'vue';
 import { useMenuStore } from '../stores/index'
 
 const router = useRouter();
-const menuData = reactive(router.options.routes[0].children);
+// const menuData = reactive(router.options.routes[0].children);
 
 const store = useMenuStore()
+
+const menuData = store.routerList
 
 const handleOpen = () => { }
 const handleClose = () => { }
