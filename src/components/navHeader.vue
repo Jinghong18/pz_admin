@@ -97,6 +97,7 @@ const closeTab = (item, index) => {
         .icon {
             width: 45px;
             height: 100%;
+            color: #493D9E;
         }
 
         .icon:hover {

@@ -1,6 +1,6 @@
 <template>
-  <el-menu active-text-color="#ffd04b" background-color="#545c64" class="aside-container      el-menu-vertical-demo"
-      text-color="#fff" @open="handleOpen" @close="handleClose"
+  <el-menu active-text-color="#FFF2AF" background-color="#F7CFD8" class="aside-container      el-menu-vertical-demo"
+      text-color="#493D9E" @open="handleOpen" @close="handleClose"
       :style="{ width: store.isCollapse ? '64px' : '230px' }"
       :collapse="store.isCollapse"
       :collapse-transition="false">
