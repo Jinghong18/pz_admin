@@ -35,10 +35,11 @@ const handleClose = () => { }
 
   .logo-lg {
     font-size: 20px;
+    font-weight: bold;
     text-align: center;
     height: 50px;
     line-height: 50px;
-    color: #fff;
+    color: #493D9E;
   }
 }
 </style>
