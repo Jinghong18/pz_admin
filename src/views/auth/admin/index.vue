@@ -87,7 +87,7 @@ const paginationData = reactive({
 // 请求列表
 const getList = () => {
     authAdmin(paginationData).then(({ data }) => {
-        console.log(data, 'authAdmin')
+        // console.log(data, 'authAdmin')
         const { list, total } = data.data
         list.forEach((item) => {
             item.create_time = dayjs(item.create_time).format('YYYY-MM-DD')

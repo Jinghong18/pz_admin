@@ -5,9 +5,10 @@ const parsedData = localData ? JSON.parse(localData) : {};
 
 export const useMenuStore = defineStore('menuStore', {
   state: () => ({
-    isCollapsed: parsedData.state.isCollapsed || false,  
-    selectMenu: parsedData.state.selectMenu || [],    
-    routerList: parsedData.state.routerList || []         
+    isCollapsed: parsedData?.isCollapsed || false,  
+    selectMenu: parsedData?.selectMenu || [],    
+    routerList: parsedData?.routerList || [],
+    menuActive: parsedData?.menuActive || '1-1', 
   }), 
   actions: {
     toggleCollapse() {
@@ -43,6 +44,9 @@ export const useMenuStore = defineStore('menuStore', {
       }
       routerSet(menu);
       this.routerList = menu;
+    },
+    updateMenuActive(active) {
+      this.menuActive = active
     }
   }
 })

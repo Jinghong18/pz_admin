@@ -147,7 +147,7 @@
   
     await formEl.validate((valid, fields) => {
       if (valid) {
-        console.log(loginForm, 'submit!');
+        // console.log(loginForm, 'submit!');
         if (formType.value) {
           userAuthentication(loginForm).then(({ data }) => {
             if (data.code === 10000) {
@@ -165,7 +165,7 @@
               // 请求权限菜单
               menuPermissions().then(({ data }) => {
                 menuStore.dynamicMenu(data.data);
-                console.log(menuStore.routerList, 'routerList_1');
+                // console.log(menuStore.routerList, 'routerList_1');
                 toRaw(menuStore.routerList).forEach((item) => {
                   router.addRoute('main', item);
                 });
