@@ -51,13 +51,27 @@
         </el-col>
     </el-row>
 
-    <el-card style="margin-top: 10px; max-height: 300px;">todo</el-card>
+    <el-card style="margin-top: 10px; max-height: 300px;">
+        <div id="chart">
+            <vue-echarts :options="chartOptions" style="height: 300px;" />
+        </div>
+    </el-card>
 </template>
 
 <script setup>
 import { reactive, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { authAdmin, menuSelectList, adminOrder } from '../../api/index'
+import dayjs from 'dayjs'
+import VueECharts from 'vue-echarts';
+import { use } from 'echarts';
+import { LineChart } from 'echarts/charts';
+import { TitleComponent, TooltipComponent, GridComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+// 注册ECharts组件
+use([TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]);
+
 const route = useRoute()
 
 const userInfoString = localStorage.getItem("pz_userInfo");
@@ -93,6 +107,7 @@ const getList = () => {
         orderData.list = list
         orderData.total = total
         countOrderStates(orderData.list)
+        generateChartData(orderData.list); // 调用生成图表数据的函数
     })
 }
 // 所属组别要调接口匹配
@@ -123,9 +138,53 @@ function countOrderStates(orders) {
             result[order.trade_state] += 1;
         }
     });
-    console.log(result, '订单统计')
+    // console.log(result, '订单统计')
 }
 
+// 生成折线图所需的数据
+const chartOptions = ref({
+  tooltip: {
+    trigger: 'axis',
+  },
+  xAxis: {
+    type: 'category',
+    data: [], // 横坐标为日期
+  },
+  yAxis: {
+    type: 'value',
+  },
+  series: [
+    {
+      name: '订单数',
+      type: 'line',
+      data: [], // 纵坐标为订单数
+      itemStyle: {
+        color: '#3498db' // 设置折线的颜色为蓝色
+      }
+
+    },
+  ],
+});
+
+// 根据订单创建时间生成前5天的订单数据
+function generateChartData(orders) {
+  const today = dayjs(); // 获取当前日期
+  const lastFiveDays = Array.from({ length: 5 }, (_, i) =>
+    today.subtract(i, 'day').format('YYYY-MM-DD')
+  ).reverse(); // 获取当前日期和前五天的日期
+  
+  // 初始化图表日期（横坐标）
+  chartOptions.value.xAxis.data = lastFiveDays;
+
+  // 初始化订单数数据（纵坐标）
+  const orderCount = lastFiveDays.map((date) => {
+    return orders.filter((order) => dayjs(order.create_time).format('YYYY-MM-DD') === date).length;
+  });
+
+  // 更新图表数据（纵坐标）
+  chartOptions.value.series[0].data = orderCount;
+  console.log(chartOptions.value, '折线图数据')
+}
 
 onMounted(() => {
     getList()
