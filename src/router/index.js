@@ -16,7 +16,7 @@ const routes = [
           if(child){
             return child[0].meta.path
           }else{
-            return JSON.parse(localData).routerList[0].meta.path
+            return JSON.parse(localData).routerList[0].path
           }
         }else{
           return '/login'

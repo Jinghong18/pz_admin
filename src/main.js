@@ -8,7 +8,6 @@ import { createPinia } from 'pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import panelHead from '../src/components/panelHeader.vue'
 import { useMenuStore } from './stores/index'
-import { watch } from 'vue'
 
 
 
@@ -33,7 +32,7 @@ const pinia = createPinia()
 app.use(ElementPlus)
 app.use(pinia)
 
-// 刷新后的动态路由添
+// 刷新后的动态路由添加
 const menuStore = useMenuStore();
 menuStore.$subscribe((mutation, state) => {
   // console.log(mutation, state);
@@ -46,14 +45,8 @@ if (localData) {
   menuStore.dynamicMenu(JSON.parse(localData).routerList)
 
   menuStore.routerList.forEach((item) => {
-    router.addRoute('main', {
-      path: item.path,
-      component: item.components,
-      meta: item.meta || {},
-      children: item.children || []
-    }); // 添加路由
+    router.addRoute('main', item); // 添加路由
   });
-
   router.push('/');
 }
 app.use(router)

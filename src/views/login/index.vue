@@ -39,7 +39,9 @@
   import { ref, reactive, toRaw } from 'vue';
   import { getCode, userAuthentication, login, menuPermissions } from '../../api/index';
   import { useMenuStore } from '../../stores/index';
-  import router from '../../router/index';
+  import { useRouter } from 'vue-router';
+  
+  const router = useRouter();
   
   // 获取 Pinia 状态管理
   const menuStore = useMenuStore();

@@ -87,6 +87,7 @@ const getListData = (params = {}) => {
         })
         tableData.list = list
         tableData.total = total
+        console.log(tableData, 'tableData')
     })
 }
 
