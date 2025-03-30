@@ -21,7 +21,7 @@
         </el-table-column>
         <el-table-column prop="sex" label="性别">
             <template #default="scope">
-                {{ scope.row.sex === 1 ? '男' : '女' }}
+                {{ scope.row.sex === '1' ? '男' : '女' }}
             </template>
         </el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
@@ -187,8 +187,6 @@ onMounted(() => {
     })
     getListData()
 })
-
-
 
 const tableData = reactive(
   {

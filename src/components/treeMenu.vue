@@ -42,13 +42,4 @@ function handleClick(item, active) {
   store.addSelectMenu(item.meta)
 }
 
-// 监听 store 的 state 变化
-watch(
-  () => store.$state,  // 监听整个 store 的 state
-  (state) => {
-    // 每当状态发生变化时，将整个 state 持久化到本地存储。
-    localStorage.setItem('activeData', JSON.stringify(state));
-  },
-  { deep: true }  // 深度监听，确保嵌套对象变化也能被检测
-);
 </script>

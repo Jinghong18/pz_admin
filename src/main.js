@@ -33,18 +33,12 @@ const pinia = createPinia()
 app.use(ElementPlus)
 app.use(pinia)
 
-// 刷新后的动态路由添加
-const menuStore = useMenuStore()
-
-// 监听 store 的 state 变化
-watch(
-  () => menuStore.$state,  // 监听整个 store 的 state
-  (state) => {
-    // 每当状态发生变化时，将整个 state 持久化到本地存储。
-    localStorage.setItem('pz_v3pz', JSON.stringify(state));
-  },
-  { deep: true }  // 深度监听，确保嵌套对象变化也能被检测
-);
+// 刷新后的动态路由添
+const menuStore = useMenuStore();
+menuStore.$subscribe((mutation, state) => {
+  // console.log(mutation, state);
+  localStorage.setItem('pz_v3pz', JSON.stringify(state))
+});
 
 
 const localData = localStorage.getItem('pz_v3pz')
