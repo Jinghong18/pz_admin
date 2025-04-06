@@ -50,10 +50,9 @@
             </el-card>
         </el-col>
     </el-row>
-
     <el-card style="margin-top: 10px; max-height: 300px;">
-        <div id="chart">
-            <vue-echarts :options="chartOptions" style="height: 300px;" />
+        <div class="chart">
+            <v-chart :option="chartOptions" style="height: 300px;" />
         </div>
     </el-card>
 </template>
@@ -63,14 +62,7 @@ import { reactive, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { authAdmin, menuSelectList, adminOrder } from '../../api/index'
 import dayjs from 'dayjs'
-import VueECharts from 'vue-echarts';
-import { use } from 'echarts';
-import { LineChart } from 'echarts/charts';
-import { TitleComponent, TooltipComponent, GridComponent } from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
 
-// 注册ECharts组件
-use([TitleComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]);
 
 const route = useRoute()
 
@@ -143,6 +135,10 @@ function countOrderStates(orders) {
 
 // 生成折线图所需的数据
 const chartOptions = ref({
+  title: {
+    text: '订单统计',
+    left: 'center'
+  },
   tooltip: {
     trigger: 'axis',
   },
@@ -222,6 +218,9 @@ onMounted(() => {
 
 .el-card {
     height: 100%;
+    .chart {
+        height: 100%;
+    }
 }
 
 .text {
